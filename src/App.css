@@ -1,0 +1,23 @@
+body {
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 ;
+  padding: 0;
+  text-align: center;
+}
+
+.mainBg{
+  /* background-color: rgba(125, 125, 125, .30); */
+  background-color: #f7f7f7;
+}
+
+.icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.icon:hover {
+  transform: translateY(-10px) scale(1.5);
+}
