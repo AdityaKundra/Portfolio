@@ -1,15 +1,15 @@
-## ✅ Completed Tasks (as of 6/8 - 12:30)
+## ✅ Completed Tasks (as of 12/8 - 11:30)
 
-- [x] Notes App UI
+- [x] Notes App UI (Improve UI)
+- [x] Document UI
 - [x] Contacts UI
-- [x] Gallery UI
+- [ ] Gallery UI
 
 ## 🚧 Tasks Remaining
 
-- [ ] Tilt Card (Contact)
 - [ ] Multiple Folders (Random Positions logic remaining)
 - [ ] Messages UI
-- [ ] Terminal
+- [x] Terminal
 - [x] Links (Data Object)
 - [ ] Animations
 - [ ] Optimization

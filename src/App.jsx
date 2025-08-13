@@ -8,6 +8,10 @@ import Modal from './components/Modal';
 import { projectList } from  './components/Info'
 import Documents from './components/Documents';
 import Notes from './components/Notes';
+import Contact from './components/Contact';
+import Image from './components/Image';
+import Gallery from './components/Gallery';
+import Terminal from './components/Terminal';
 
 
 const App = () => {
@@ -57,9 +61,13 @@ const App = () => {
         } */}
 <Modal isOpen={isOpen} isClose={isClose} projectName="Folder Name" />
 
-{/* <Documents/> */}
+{/* <Documents isOpen={isOpen} isClose={isClose} projectName="Folder Name" /> */}
 
-{/* <Notes/> */}
+{/* <Contact/> */}
+
+{/* <Image/> */}
+
+{/* <Terminal/> */}
 
       </div>
 
