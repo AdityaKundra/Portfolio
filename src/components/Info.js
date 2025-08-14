@@ -72,15 +72,16 @@ export const projects = {
     }
 }
 export const socialLinks = {
-    Linkedin: 'https://www.linkedin.com/in/adi-kundra/',
-    GitHub: 'https://github.com/adityaKundra/',
-    LeetCode: 'https://leetcode.com/u/PracticeAdi/',
-    Instagram: 'https://www.instagram.com/adi.kundra/',
+    linkedin: 'https://www.linkedin.com/in/adi-kundra/',
+    gitHub: 'https://github.com/adityaKundra/',
+    leetCode: 'https://leetcode.com/u/PracticeAdi/',
+    instagram: 'https://www.instagram.com/adi.kundra/',
 }
 export const contact = {
-    Email: 'adityadef@gmail.com',
-    Phone: '+91 9015111393',
-    Location: 'Delhi, In'
+    email: 'adityadef@gmail.com',
+    phone: '+91 9015111393',
+    location: 'Delhi, In',
+    resume: '../assets/Aditya_Kundra_Resume_FullStack.pdf'
 }
 
 export const gallery = {}

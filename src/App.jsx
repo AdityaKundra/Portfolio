@@ -5,13 +5,12 @@ import AppDrawer from './components/AppDrawer';
 import Folder from './components/Folder';
 import Headbar from './components/Headbar';
 import Modal from './components/Modal';
-import { projectList } from  './components/Info'
+import { projectList } from './components/Info'
 import Documents from './components/Documents';
-import Notes from './components/Notes';
 import Contact from './components/Contact';
 import Image from './components/Image';
-import Gallery from './components/Gallery';
 import Terminal from './components/Terminal';
+import Message from './components/Message';
 
 
 const App = () => {
@@ -39,6 +38,7 @@ const App = () => {
       </div>
 
       <div className="relative z-10 h-full flex justify-between flex-col">
+      
         <Headbar />
 
         <div className='blah absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 '>
@@ -53,21 +53,24 @@ const App = () => {
             projects.type !== 'Build' && (<Folder key={index} name={projects.name} isOpen={openModal}/>)
           ))
         } */}
-<Folder name="Folder Name" isOpen={openModal}/>
+        <Folder name="Folder Name" isOpen={openModal} />
         {/* {
           projectList.map((projects, index) => (
             projects.type !== 'Build' && (<Modal key={index}  isOpen={openModals[projects.name]} isClose={isClose} projectName={projects.name} />)
           ))
         } */}
-<Modal isOpen={isOpen} isClose={isClose} projectName="Folder Name" />
+        <Modal isOpen={isOpen} isClose={isClose} projectName="Folder Name" />
 
-{/* <Documents isOpen={isOpen} isClose={isClose} projectName="Folder Name" /> */}
+        {/* <Documents isOpen={isOpen} isClose={isClose} projectName="Folder Name" /> */}
 
-{/* <Contact/> */}
 
-{/* <Image/> */}
+        {/* <Image/> */}
 
-{/* <Terminal/> */}
+        {/* <Terminal/> */}
+
+        {/* <Contact/> */}
+
+        <Message/>
 
       </div>
 
