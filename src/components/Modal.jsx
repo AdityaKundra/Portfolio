@@ -2,7 +2,6 @@ import { projectList, socialLinks } from './Info'
 
 const Modal = ({ isOpen, isClose }) => {
     if (!isOpen) return null
-    console.log('Clicked')
     return (
         <>
             {/* <div className='absolute top-0 left-0 modal min-h-screen min-w-screen z-10 flex justify-center items-center shadow-2xl ' style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }} onClick={isClose}>bg-[#00000012] */}
@@ -15,7 +14,7 @@ const Modal = ({ isOpen, isClose }) => {
                                 <span className='expand  h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
                             </div>
                         </div>
-                        <p className='text-sm mb-2 text-start font-medium'>Favourites</p>
+                        <p className='text-sm mb-2 text-start font-medium dark:text-[#272727]'>Favourites</p>
                         <ul className='text-start'>
                             {
                                 projectList.map((elm, index) => (
@@ -26,7 +25,7 @@ const Modal = ({ isOpen, isClose }) => {
                             }
 
                         </ul>
-                        <p className='text-sm my-2 text-start font-medium'>Usefull Links</p>
+                        <p className='text-sm my-2 text-start font-medium dark:text-[#272727]'>Usefull Links</p>
                         <ul className='text-start'>
                             {
                                 Object.entries(socialLinks).map(([platform, link], index) => (
@@ -39,7 +38,9 @@ const Modal = ({ isOpen, isClose }) => {
                         <div className='contentHead rounded-tr-xl h-12 flex justify-start items-center px-4 gap-4 bg-[#fdfdfd]' style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 0px 0px, rgba(0, 0, 0, 0.1) 0px 0.5px 0px 0px' }}>
                             <span className='text-sm font-semibold text-[#000000b3]'>Folder Name</span>
                         </div>
-                        <div className='py-4 px-4 fileContent'></div>
+                        <div className='py-4 px-4 fileContent dark:text-[#272727]'>
+                        Work in progress
+                        </div>
                     </div>
                 </div>
             {/* </div> */}

@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Folder from '../assets/Folder.svg'
 
-const Terminal = () => {
+const Terminal = ({ isOpen, isClose }) => {
+
+    if (!isOpen) return null;
+
     const [input, setInput] = useState('')
     const [history, setHistory] = useState([])
     const [commandHistory, setCommandHistory] = useState([])
@@ -11,7 +14,7 @@ const Terminal = () => {
 
     const commands = {
         help: () =>
-`Available commands:
+            `Available commands:
 - help       : Show all available commands
 - contact    : Show contact details
 - about      : About me
@@ -25,26 +28,26 @@ const Terminal = () => {
         echo: (arg) => arg.join(' '),
 
         contact: () =>
-`📧 Email: adityakundra@example.com
+            `📧 Email: adityakundra@example.com
 📱 Phone: +91-XXXXXXXXXX
 🌐 Portfolio: https://adityakundra.dev
 🔗 LinkedIn: https://linkedin.com/in/adityakundra
 💻 GitHub: https://github.com/adityakundra`,
 
         about: () =>
-`I am a Web Developer specializing in frontend engineering and backend integrations.
+            `I am a Web Developer specializing in frontend engineering and backend integrations.
 Experienced in React, Next.js, Node.js, and Docker, I build performant, user-focused applications.
 Passionate about clean design, scalable architecture, and continuous learning.`,
 
         skills: () =>
-`Frontend: React, Next.js, Tailwind CSS, Redux, React Query
+            `Frontend: React, Next.js, Tailwind CSS, Redux, React Query
 Backend: Node.js, Express, REST APIs
 Databases: MySQL, PostgreSQL, MongoDB
 DevOps: Docker, GitHub Actions, Netlify, Vercel
 Others: System Design, ADBMS, Agile Development`,
 
         experience: () =>
-`React Developer - XYZ Company (2022 - Present)
+            `React Developer - XYZ Company (2022 - Present)
 - Developed and maintained complex React applications
 - Implemented global state management using Redux
 - Optimized performance, reducing load time by 35%
@@ -55,11 +58,11 @@ Frontend Developer - xyz Solutions (2020 - 2022)
 - Collaborated with designers to deliver pixel-perfect UI`,
 
         education: () =>
-`Master of Computer Applications - Chandigarh University, 2025
+            `Master of Computer Applications - Chandigarh University, 2025
 Bachelor of Computer Applications - Subharti University, 2022`,
 
         projects: () =>
-`1. Portfolio Website - macOS-style draggable modal UI built with React & Tailwind
+            `1. Portfolio Website - macOS-style draggable modal UI built with React & Tailwind
 2. Cricket Scoring App - Real-time scoring with Vite + WebSocket`,
 
         clear: () => {
@@ -109,12 +112,11 @@ Bachelor of Computer Applications - Subharti University, 2022`,
         inputRef.current?.focus()
         terminalRef.current.scrollTop = terminalRef.current.scrollHeight
     }, [history])
-
     return (
         <div className='h-[300px] w-[500px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg font-mono text-sm' onClick={() => inputRef.current?.focus()}>
             <div className='bg-[#ebebeb] px-3 py-2 flex items-center justify-between rounded-t-lg'>
                 <div className='flex items-center space-x-2'>
-                    <span className='h-3 w-3 rounded-full bg-[#ED6A5E] border border-[#CE5347]' />
+                    <span className='h-3 w-3 rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={isClose} />
                     <span className='h-3 w-3 rounded-full bg-[#F6BE4F] border border-[#D6A243]' />
                     <span className='h-3 w-3 rounded-full bg-[#62C554] border border-[#58A942]' />
                 </div>

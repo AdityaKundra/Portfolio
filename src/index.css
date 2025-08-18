@@ -13,3 +13,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@layer utilities {
+  .animate-bounce {
+    animation: bounce 1s infinite;
+  }
+}

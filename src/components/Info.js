@@ -1,31 +1,59 @@
 export const projectList = [
     {
         name: 'LeadSchool_Students_App',
-        type: 'Job'
+        type: 'Job',
+        positions:{
+            top:'30%',
+            right:'10%'
+        }
     },
     {
         name: 'LeadSchool_Web_App',
-        type: 'Job'
+        type: 'Job',
+        positions:{
+            top:'75%',
+            left:'50%'
+        }
     },
     {
         name: 'LeadSchool_Drupal_App',
-        type: 'Job'
+        type: 'Job',
+        positions:{
+            top:'70%',
+            right:'20%'
+        }
     },
     {
         name: 'Redefine',
-        type: 'Job'
+        type: 'Job',
+        positions:{
+            top:'60%',
+            left:'10%'
+        }
     },
     {
         name: 'Sports Score App',
-        type: 'Build'
+        type: 'Build',
+        positions:{
+            top:'70%',
+            right:'30%'
+        }
     },
     {
         name: 'AI Resume Tailor',
-        type: 'Build'
+        type: 'Build',
+        positions:{
+            top:'70%',
+            left:'20%'
+        }
     },
     {
         name: 'Productive App',
-        type: 'Build'
+        type: 'Build',
+        positions:{
+            top:'80%',
+            right:'50%'
+        }
     },
 ]
 

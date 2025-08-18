@@ -11,19 +11,21 @@ import Contact from './components/Contact';
 import Image from './components/Image';
 import Terminal from './components/Terminal';
 import Message from './components/Message';
+import Notes from './components/Notes'
 
 
 const App = () => {
 
-  const [isOpen, setisOpen] = useState(false)
+  const [openModals, setOpenModals] = useState({});
+  const openModal = (name) => {
+    console.log(name)
+    setOpenModals(prev => ({ ...prev, [name]: true }));
+    console.log(openModals)
+  };
 
-  const isClose = () => {
-    setisOpen(false)
-  }
-
-  const openModal = () => {
-    setisOpen(true)
-  }
+  const closeModal = (name) => {
+    setOpenModals(prev => ({ ...prev, [name]: false }));
+  };
 
   return (
     <div className="relative h-screen max-w-full overflow-hidden mainBg">
@@ -38,39 +40,35 @@ const App = () => {
       </div>
 
       <div className="relative z-10 h-full flex justify-between flex-col">
-      
+
         <Headbar />
 
-        <div className='blah absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 '>
+        <div className='blah absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 dark:text-[#272727]'>
           <p className='font-chillax text-2xl font-semibold'>Full-Stack Developer • Designer • Builder</p>
           <p className='font-chillax text-8xl font-semibold'>Aditya Kundra</p>
         </div>
 
-        <AppDrawer />
-
-        {/* {
+        <AppDrawer openModals={(name)=> openModal(name)} />
+{/* {top:'50%',right:'60%'} */}
+        {
           projectList.map((projects, index) => (
-            projects.type !== 'Build' && (<Folder key={index} name={projects.name} isOpen={openModal}/>)
+            projects.type !== 'Build' && (<Folder key={index} name={projects.name} position={projects.positions} openModal={()=>openModal(projects.name)}/>)
           ))
-        } */}
-        <Folder name="Folder Name" isOpen={openModal} />
-        {/* {
+        }
+        {/* <Folder name="Folder Name" isOpen={openModals['Folder']} isClose={()=>closeModal('Folder')}  /> */}
+        {
           projectList.map((projects, index) => (
-            projects.type !== 'Build' && (<Modal key={index}  isOpen={openModals[projects.name]} isClose={isClose} projectName={projects.name} />)
+            projects.type !== 'Build' && (<Modal key={index}  isOpen={openModals[projects.name]} isClose={()=>closeModal(projects.name)} projectName={projects.name} />)
           ))
-        } */}
-        <Modal isOpen={isOpen} isClose={isClose} projectName="Folder Name" />
-
-        {/* <Documents isOpen={isOpen} isClose={isClose} projectName="Folder Name" /> */}
+        }
+        {/* <Modal isOpen={openModals['modal']} isClose={()=>closeModal('modal')} projectName="Folder Name" /> */}
 
 
-        {/* <Image/> */}
+        <Terminal isOpen={openModals['Terminal']} isClose={()=>closeModal('Terminal')}/>
 
-        {/* <Terminal/> */}
+        <Contact isOpen={openModals['Contacts']} isClose={()=>closeModal('Contacts')}/>
 
-        {/* <Contact/> */}
-
-        <Message/>
+        <Message isOpen={openModals['Messages']} isClose={()=>closeModal('Messages')}/>
 
       </div>
 
