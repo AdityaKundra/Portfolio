@@ -39,7 +39,7 @@ const Headbar = () => {
                 {/* <span className='contactInfo text-sm cursor-pointer font-[500]'>
                     Contact
                 </span> */}
-                <a href='src/assets/Aditya_Kundra_Resume_FullStack.pdf' className='resumeLink text-sm cursor-pointer font-[500] dark:text-[#272727]' target='_blank'>
+                <a href='https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing' className='resumeLink text-sm cursor-pointer font-[500] dark:text-[#272727]' target='_blank'>
                     Resume
                 </a>
                 {/* <span className='resumeLink text-sm cursor-pointer font-[500]'>

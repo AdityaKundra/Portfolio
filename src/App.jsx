@@ -12,6 +12,7 @@ import Image from './components/Image';
 import Terminal from './components/Terminal';
 import Message from './components/Message';
 import Notes from './components/Notes'
+import Resume from './components/Resume'
 
 
 const App = () => {
@@ -46,27 +47,27 @@ const App = () => {
           <p className='font-chillax text-8xl font-semibold'>Aditya Kundra</p>
         </div>
 
-        <AppDrawer openModals={(name)=> openModal(name)} />
-{/* {top:'50%',right:'60%'} */}
+        <AppDrawer openModals={(name) => openModal(name)} />
+
         {
           projectList.map((projects, index) => (
-            projects.type !== 'Build' && (<Folder key={index} name={projects.name} position={projects.positions} openModal={()=>openModal(projects.name)}/>)
+            projects.type !== 'Build' && (<Folder key={index} name={projects.name} position={projects.positions} openModal={() => openModal(projects.name)} />)
           ))
         }
-        {/* <Folder name="Folder Name" isOpen={openModals['Folder']} isClose={()=>closeModal('Folder')}  /> */}
+
         {
           projectList.map((projects, index) => (
-            projects.type !== 'Build' && (<Modal key={index} name={projects.name} isOpen={openModals[projects.name]} isClose={()=>closeModal(projects.name)} projectName={projects.name} />)
+            projects.type !== 'Build' && (<Modal key={index} name={projects.name} isOpen={openModals[projects.name]} isClose={() => closeModal(projects.name)} projectName={projects.name} />)
           ))
         }
-        {/* <Modal isOpen={openModals['modal']} isClose={()=>closeModal('modal')} projectName="Folder Name" /> */}
 
+        <Terminal isOpen={openModals['Terminal']} isClose={() => closeModal('Terminal')} />
 
-        <Terminal isOpen={openModals['Terminal']} isClose={()=>closeModal('Terminal')}/>
+        <Contact isOpen={openModals['Contacts']} isClose={() => closeModal('Contacts')} />
 
-        <Contact isOpen={openModals['Contacts']} isClose={()=>closeModal('Contacts')}/>
+        <Message isOpen={openModals['Messages']} isClose={() => closeModal('Messages')} />
 
-        <Message isOpen={openModals['Messages']} isClose={()=>closeModal('Messages')}/>
+        <Resume />
 
       </div>
 

@@ -93,7 +93,7 @@ export const contact = {
     email: 'adityadef@gmail.com',
     phone: '+91 9015111393',
     location: 'Delhi, In',
-    resume: '../assets/Aditya_Kundra_Resume_FullStack.pdf'
+    resume: 'https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing'
 }
 
 export const gallery = {}
