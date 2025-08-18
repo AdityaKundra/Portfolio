@@ -11,7 +11,7 @@ export const projectList = [
         name: 'LeadSchool_Web_App',
         type: 'Job',
         positions:{
-            top:'75%',
+            top:'65%',
             left:'50%'
         }
     },
@@ -60,43 +60,27 @@ export const projectList = [
 export const projects = {
     LeadSchool_Students_App: {
         link: '',
-        description: '',
+        description: 'Engineered a mobile-first Students App for LEAD School using React Native, enabling 200K+ students to access classes, assignments, exams, and progress reports seamlessly. Integrated REST APIs for real-time attendance and performance updates, implemented offline-first features for low connectivity regions, and optimized UI/UX for better engagement. Significantly reduced student login issues and improved app adoption among partner schools.',
         media: [],
         icon: '',
-        positions: {
-            x: '00%',
-            y: '00%'
-        }
     },
     LeadSchool_Web_App: {
         link: '',
-        description: '',
+        description: 'Developed and scaled the LEAD School Web App using React.js and Redux, providing administrators and teachers with dashboards for attendance, performance analytics, and curriculum planning. Worked on modular UI components, role-based authentication, and data visualization to streamline academic operations. Enhanced cross-browser responsiveness and reduced load time by ~30%, improving efficiency for 10K+ teachers across schools.',
         media: [],
         icon: '',
-        positions: {
-            x: '00%',
-            y: '00%'
-        }
     },
     LeadSchool_Drupal_App: {
         link: '',
-        description: '',
+        description: 'Maintained and customized a Drupal-based CMS powering LEAD School’s digital content ecosystem. Implemented theme customization, module development, and backend improvements to manage study materials, training resources, and communications for educators. Optimized caching and data delivery pipelines, reducing content load time by ~25% and enabling smoother content access for thousands of teachers nationwide.',
         media: [],
         icon: '',
-        positions: {
-            x: '00%',
-            y: '00%'
-        }
     },
     Redefine: {
         link: '',
-        description: '',
+        description: 'Contributed to Redefine’s enterprise web solutions by designing reusable UI components and optimizing backend API integrations. Enhanced system scalability, improved state management, and delivered responsive user interfaces aligned with client requirements. Focused on improving application performance, reducing technical debt, and ensuring maintainable code structure across multiple products, directly impacting user satisfaction and faster delivery cycles.',
         media: [],
         icon: '',
-        positions: {
-            x: '00%',
-            y: '00%'
-        }
     }
 }
 export const socialLinks = {

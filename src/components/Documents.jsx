@@ -1,14 +1,14 @@
 import { useState } from "react"
 
-const Documents = () => {
-  console.log('Clicked')
+const Documents = ({data, isOpen, isClose}) => {
+      if (!isOpen) return null
   return (
     <>
       {/* <div className="absolute top-0 left-0 modal min-h-screen min-w-screen z-10 flex justify-center items-center shadow-2xl" style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }} onClick={isClose}> */}
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[380px] w-[330px] bg-white rounded-xl z-20 shadow-2xl' style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}>
           <div className="documentHeader bg-[#ebebeb] flex items-center justify-between rounded-tr-xl rounded-tl-xl py-3 px-3">
             <div className='actionButtons flex gap-2'>
-              <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' ></span>
+              <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={isClose}></span>
               <span className='minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]'></span>
               <span className='expand  h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
             </div>
@@ -35,9 +35,8 @@ const Documents = () => {
             </div>
           </div>
           <div className="documentContent p-6 text-sm h-full overflow-y-scroll text-justify leading-6" style={{ maxHeight: '85%' }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-
+            {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. */}
+            {data}
           </div>
         </div>
       {/* </div> */}

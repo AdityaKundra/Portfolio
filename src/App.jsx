@@ -18,9 +18,7 @@ const App = () => {
 
   const [openModals, setOpenModals] = useState({});
   const openModal = (name) => {
-    console.log(name)
     setOpenModals(prev => ({ ...prev, [name]: true }));
-    console.log(openModals)
   };
 
   const closeModal = (name) => {
@@ -58,7 +56,7 @@ const App = () => {
         {/* <Folder name="Folder Name" isOpen={openModals['Folder']} isClose={()=>closeModal('Folder')}  /> */}
         {
           projectList.map((projects, index) => (
-            projects.type !== 'Build' && (<Modal key={index}  isOpen={openModals[projects.name]} isClose={()=>closeModal(projects.name)} projectName={projects.name} />)
+            projects.type !== 'Build' && (<Modal key={index} name={projects.name} isOpen={openModals[projects.name]} isClose={()=>closeModal(projects.name)} projectName={projects.name} />)
           ))
         }
         {/* <Modal isOpen={openModals['modal']} isClose={()=>closeModal('modal')} projectName="Folder Name" /> */}
