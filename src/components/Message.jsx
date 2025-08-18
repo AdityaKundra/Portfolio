@@ -3,7 +3,7 @@ import Cellular from '../assets/Cellular.svg'
 import Wifi from '../assets/Wifi.svg'
 import Battery from '../assets/Battery.svg'
 import Back from '../assets/Chevron.svg'
-import FaceTime from '../assets/FaceTimeIcon.svg'
+import FaceTime from '../assets/FacetimeIcon.svg'
 import avatar from '../assets/avatar/avatar_3_BG.png'
 
 const Message = ({ isOpen, isClose }) => {
