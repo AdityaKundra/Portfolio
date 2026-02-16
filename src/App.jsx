@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import grid from './assets/mainBg.avif';
 import AppDrawer from './components/AppDrawer';
@@ -13,11 +13,14 @@ import Terminal from './components/Terminal';
 import Message from './components/Message';
 import Notes from './components/Notes'
 import Resume from './components/Resume'
+import Loader from './components/Loader';
 
 
 const App = () => {
 
   const [openModals, setOpenModals] = useState({});
+  // const [showLoader, setShowLoader] = useState(true);
+
   const openModal = (name) => {
     setOpenModals(prev => ({ ...prev, [name]: true }));
   };
@@ -25,7 +28,26 @@ const App = () => {
   const closeModal = (name) => {
     setOpenModals(prev => ({ ...prev, [name]: false }));
   };
+  
+//   useEffect(() => {
+//   const handleDOMReady = () => {
+//     const timer = setTimeout(() => {
+//       setLoading(false);
+//     }, 2000);
+//     return () => clearTimeout(timer);
+//   };
 
+//   if (document.readyState === 'complete') {
+//     handleDOMReady();
+//   } else {
+//     window.addEventListener('load', handleDOMReady);
+//     return () => window.removeEventListener('load', handleDOMReady);
+//   }
+// }, []);
+
+
+  // if (showLoader) return <Loader onFinish={() => setShowLoader(false)} />
+  
   return (
     <div className="relative h-screen max-w-full overflow-hidden mainBg">
 
