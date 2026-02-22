@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Cellular from '../assets/Cellular.svg'
 import Wifi from '../assets/Wifi.svg'
 import Battery from '../assets/Battery.svg'
@@ -12,6 +12,9 @@ const Message = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     if (!isOpen) return null;
 
     const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+    const [isClosing, setIsClosing] = useState(false);
+    const handleClose = useCallback(() => setIsClosing(true), []);
+    const handleAnimationEnd = useCallback(() => { if (isClosing) isClose(); }, [isClosing, isClose]);
     const [clock, setClock] = useState(new Date())
     const [openIndexes, setOpenIndexes] = useState([])
     const modalRef = useRef()
@@ -108,15 +111,16 @@ const Message = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     return (
         <div
             ref={modalRef}
-            className='h-[80vh] max-h-[600px] w-[95vw] max-w-[340px] md:h-[550px] md:w-[300px] absolute bg-white dark:bg-[#2d2d2d] shadow-xl text-sm flex flex-col z-20 animate-scale-in'
+            className={`h-[80vh] max-h-[600px] w-[95vw] max-w-[340px] md:h-[550px] md:w-[300px] absolute bg-white dark:bg-[#2d2d2d] shadow-xl text-sm flex flex-col z-20 ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
             style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
+            onAnimationEnd={handleAnimationEnd}
         >
             <div
                 className='header pt-2 px-4 bg-[#ebebeb] cursor-grab active:cursor-grabbing'
                 onMouseDown={handleMouseDown}
             >
                 <div className='flex gap-2 mb-2' data-no-drag>
-                    <span className='h-2.5 w-2.5 rounded-full bg-[#ED6A5E] cursor-pointer' onClick={isClose} />
+                    <span className='h-2.5 w-2.5 rounded-full bg-[#ED6A5E] cursor-pointer' onClick={handleClose} />
                     <span className='h-2.5 w-2.5 rounded-full bg-[#F6BE4F] cursor-pointer' onClick={onMinimize} />
                     <span className='h-2.5 w-2.5 rounded-full bg-[#62C554]' />
                 </div>

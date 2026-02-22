@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Documents from './Documents'
 import DocumentIcon from '../assets/Document.svg'
 import { projectList, socialLinks, projects } from './Info'
@@ -8,18 +8,28 @@ const Modal = ({ name, isOpen, isClose, position = { x: 0, y: 0 }, onPositionCha
     if (!isOpen) return null
 
     const [openDoc, setOpenDoc] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
     const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+
+    const handleClose = useCallback(() => {
+        setIsClosing(true);
+    }, []);
+
+    const handleAnimationEnd = useCallback(() => {
+        if (isClosing) isClose();
+    }, [isClosing, isClose]);
 
     return (
         <>
             <div
-                className='absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[700px] md:h-[350px] md:w-[700px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 shadow-2xl animate-scale-in'
+                className={`absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[700px] md:h-[350px] md:w-[700px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 shadow-2xl ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
+                onAnimationEnd={handleAnimationEnd}
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             >
                 <div className='w-3/12 sidebar bg-[#ebebeb] flex flex-col rounded-bl-xl rounded-tl-xl overflow-hidden'>
                     <div className='sidebarHead shrink-0 h-8 px-3 pt-3 cursor-grab active:cursor-grabbing' onMouseDown={handleMouseDown}>
                         <div className='actionButtons flex gap-2' data-no-drag>
-                            <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={isClose}></span>
+                            <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={handleClose}></span>
                             <span className='minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]'></span>
                             <span className='expand h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
                         </div>

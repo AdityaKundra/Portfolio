@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import Folder from '../assets/Folder.svg'
 import { useDraggableWindow } from '../hooks/useDraggableWindow'
 import { contact, socialLinks, projects, projectList } from './Info'
@@ -8,6 +8,10 @@ const Terminal = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
     if (!isOpen) return null;
 
     const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = useCallback(() => setIsClosing(true), []);
+    const handleAnimationEnd = useCallback(() => { if (isClosing) isClose(); }, [isClosing, isClose]);
 
     const [input, setInput] = useState('')
     const [history, setHistory] = useState([])
@@ -116,16 +120,17 @@ Bachelor of Computer Applications - Subharti University, 2022`,
     }, [history])
     return (
         <div
-            className='h-[70vh] max-h-[400px] w-[95vw] max-w-[500px] md:h-[300px] md:w-[500px] absolute bg-white dark:bg-[#2d2d2d] rounded-lg shadow-lg font-mono text-sm z-20 animate-scale-in'
+            className={`h-[70vh] max-h-[400px] w-[95vw] max-w-[500px] md:h-[300px] md:w-[500px] absolute bg-white dark:bg-[#2d2d2d] rounded-lg shadow-lg font-mono text-sm z-20 ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
             style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             onClick={() => inputRef.current?.focus()}
+            onAnimationEnd={handleAnimationEnd}
         >
             <div
                 className='bg-[#ebebeb] px-3 py-2 flex items-center justify-between rounded-t-lg cursor-grab active:cursor-grabbing'
                 onMouseDown={handleMouseDown}
             >
                 <div className='flex items-center space-x-2' data-no-drag>
-                    <span className='h-3 w-3 rounded-full bg-[#ED6A5E] border border-[#CE5347] cursor-pointer' onClick={(e) => { e.stopPropagation(); isClose(); }} />
+                    <span className='h-3 w-3 rounded-full bg-[#ED6A5E] border border-[#CE5347] cursor-pointer' onClick={(e) => { e.stopPropagation(); handleClose(); }} />
                     <span className='h-3 w-3 rounded-full bg-[#F6BE4F] border border-[#D6A243] cursor-pointer' onClick={(e) => { e.stopPropagation(); onMinimize?.(); }} />
                     <span className='h-3 w-3 rounded-full bg-[#62C554] border border-[#58A942]' />
                 </div>

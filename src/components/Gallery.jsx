@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { gallery } from './Info';
 import { useDraggableWindow } from '../hooks/useDraggableWindow';
 
@@ -6,6 +6,9 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     if (!isOpen) return null;
 
     const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+    const [isClosing, setIsClosing] = useState(false);
+    const handleClose = useCallback(() => setIsClosing(true), []);
+    const handleAnimationEnd = useCallback(() => { if (isClosing) isClose(); }, [isClosing, isClose]);
     const albums = gallery?.albums ?? [];
     const [activeAlbum, setActiveAlbum] = useState(albums[0]?.id ?? null);
     const [lightboxPhoto, setLightboxPhoto] = useState(null);
@@ -16,8 +19,9 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     return (
         <>
             <div
-                className="absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[750px] md:h-[450px] md:w-[750px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 overflow-hidden animate-scale-in"
+                className={`absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[750px] md:h-[450px] md:w-[750px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 overflow-hidden ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
+                onAnimationEnd={handleAnimationEnd}
             >
                 {/* Sidebar */}
                 <div className="w-3/12 bg-[#ebebeb] py-4 px-4 flex flex-col rounded-bl-xl">
@@ -28,7 +32,7 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
                         <div className="actionButtons flex gap-2" data-no-drag>
                             <span
                                 className="cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]"
-                                onClick={isClose}
+                                onClick={handleClose}
                             />
                             <span
                                 className="cursor-pointer minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]"

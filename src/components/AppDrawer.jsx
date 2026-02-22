@@ -20,7 +20,7 @@ const AppDrawer = ({ openModals, openWindows = {}, minimizedWindows = {} }) => {
   const isMinimized = (name) => minimizedWindows[name];
 
   return (
-    <div className='appDrawer flex justify-center items-center my-2 md:my-4 px-2 overflow-x-auto'>
+    <div className='appDrawer flex justify-center items-center my-2 md:my-4 px-2'>
       <div className='w-auto px-1 py-1 bg-[rgba(219,225,227,0.65)] dark:bg-[rgba(45,45,47,0.9)] flex justify-start items-center rounded-[12px] gap-1 shrink-0'>
         {iconsList.map(([name, icon], index) => (
           <React.Fragment key={index}>

@@ -29,7 +29,7 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 
 - [x] **Loader** — Re-enable in `App.jsx`; tune timing (~1.2s display + 0.5s exit)
 - [x] **Keyboard shortcuts** — Escape closes top modal; Cmd+M (Messages), Cmd+T (Terminal)
-- [x] **Modal open/close animations** — scale + fade; backdrop blur when modals open
+- [x] **Modal open/close animations** — scale + fade on open; scale-out on close (close button)
 - [x] **Responsive layout** — folder grid on mobile; responsive modals; compact hero
 
 ---

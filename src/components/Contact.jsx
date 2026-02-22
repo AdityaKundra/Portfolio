@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react'
 import avatar from '../assets/avatar/avatar_1_BG.png'
 import { socialLinks, contact } from './Info'
 import { useDraggableWindow } from '../hooks/useDraggableWindow'
@@ -7,11 +8,15 @@ const Contact = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     if (!isOpen) return null;
 
     const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+    const [isClosing, setIsClosing] = useState(false);
+    const handleClose = useCallback(() => setIsClosing(true), []);
+    const handleAnimationEnd = useCallback(() => { if (isClosing) isClose(); }, [isClosing, isClose]);
 
     return (
         <>
             <div
-                className='absolute w-[95vw] max-w-[460px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 animate-scale-in shadow-2xl'
+                className={`absolute w-[95vw] max-w-[460px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 shadow-2xl ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
+                onAnimationEnd={handleAnimationEnd}
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             >
                 <div
@@ -19,7 +24,7 @@ const Contact = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
                     onMouseDown={handleMouseDown}
                 >
                     <div className="flex space-x-2" data-no-drag>
-                        <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={isClose}></span>
+                        <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={handleClose}></span>
                         <span className='cursor-pointer minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]' onClick={onMinimize}></span>
                         <span className='expand  h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
                     </div>

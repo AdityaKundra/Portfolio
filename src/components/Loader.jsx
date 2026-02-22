@@ -1,5 +1,5 @@
 // import React, { useState, useEffect } from 'react';
-// import '../Loader.css';
+// import '../loader.css';
 
 // const greetings = [
 //   "नमस्ते", "Hello", "Hola", "Bonjour", "Ciao", "Hallo",
@@ -29,7 +29,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import '../Loader.css';
+import '../loader.css';
 
 const greetings = [
   "नमस्ते", "Hello", "Hola", "Bonjour", "Ciao", "Hallo",
