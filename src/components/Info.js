@@ -81,6 +81,24 @@ export const projects = {
         description: 'Contributed to Redefine’s enterprise web solutions by designing reusable UI components and optimizing backend API integrations. Enhanced system scalability, improved state management, and delivered responsive user interfaces aligned with client requirements. Focused on improving application performance, reducing technical debt, and ensuring maintainable code structure across multiple products, directly impacting user satisfaction and faster delivery cycles.',
         media: [],
         icon: '',
+    },
+    'Sports Score App': {
+        link: '',
+        description: 'Real-time cricket scoring app built with Vite and WebSocket. Allows live score updates, player stats, and match summaries. Demonstrates real-time data handling and responsive UI design.',
+        media: [],
+        icon: '',
+    },
+    'AI Resume Tailor': {
+        link: '',
+        description: 'AI-powered resume customization tool that tailors your resume for each job application. Uses natural language processing to match keywords and optimize content for ATS systems.',
+        media: [],
+        icon: '',
+    },
+    'Productive App': {
+        link: '',
+        description: 'Productivity app for task management, habit tracking, and focus sessions. Built with React and local storage for offline-first workflow.',
+        media: [],
+        icon: '',
     }
 }
 export const socialLinks = {
@@ -96,7 +114,39 @@ export const contact = {
     resume: 'https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing'
 }
 
-export const gallery = {}
+export const gallery = {
+    albums: [
+        {
+            id: 'recents',
+            name: 'Recents',
+            photos: [
+                { url: 'https://picsum.photos/400/300?random=1', caption: 'Project screenshot' },
+                { url: 'https://picsum.photos/400/300?random=2', caption: 'Lead School Web' },
+                { url: 'https://picsum.photos/400/300?random=3', caption: 'React Native app' },
+                { url: 'https://picsum.photos/400/300?random=4', caption: 'Dashboard UI' },
+                { url: 'https://picsum.photos/400/300?random=5', caption: 'Mobile interface' },
+                { url: 'https://picsum.photos/400/300?random=6', caption: 'API integration' },
+            ],
+        },
+        {
+            id: 'projects',
+            name: 'Projects',
+            photos: [
+                { url: 'https://picsum.photos/400/300?random=10', caption: 'Sports Score App' },
+                { url: 'https://picsum.photos/400/300?random=11', caption: 'AI Resume Tailor' },
+                { url: 'https://picsum.photos/400/300?random=12', caption: 'Productive App' },
+            ],
+        },
+        {
+            id: 'work',
+            name: 'Work',
+            photos: [
+                { url: 'https://picsum.photos/400/300?random=20', caption: 'Lead School Students App' },
+                { url: 'https://picsum.photos/400/300?random=21', caption: 'Redefine' },
+            ],
+        },
+    ],
+}
 
 export const letsBuildTogether = {
     App_Name: {

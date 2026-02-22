@@ -1,19 +1,26 @@
 import avatar from '../assets/avatar/avatar_1_BG.png'
 import { socialLinks, contact } from './Info'
+import { useDraggableWindow } from '../hooks/useDraggableWindow'
 
-const Contact = ({ isOpen, isClose }) => {
+const Contact = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange }) => {
 
     if (!isOpen) return null;
 
+    const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
+
     return (
         <>
-
-            {/* <div className="modal min-h-screen min-w-screen z-10 flex justify-center items-center shadow-2xl" > */}
-            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] bg-[white] rounded-xl z-20 animate-[fadeInScale_0.3s_ease-out] shadow-2xl' style={{ boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}>
-                <div className="flex items-center px-4 pt-3 pb-1">
-                    <div className="flex space-x-2">
+            <div
+                className='absolute w-[460px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 animate-scale-in shadow-2xl'
+                style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
+            >
+                <div
+                    className="flex items-center px-4 pt-3 pb-1 cursor-grab active:cursor-grabbing"
+                    onMouseDown={handleMouseDown}
+                >
+                    <div className="flex space-x-2" data-no-drag>
                         <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={isClose}></span>
-                        <span className='minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]'></span>
+                        <span className='cursor-pointer minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]' onClick={onMinimize}></span>
                         <span className='expand  h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
                     </div>
                 </div>
@@ -58,13 +65,6 @@ const Contact = ({ isOpen, isClose }) => {
                     </button>
                 </div>
             </div>
-            <style>{`
-            @keyframes fadeInScale {
-              from { opacity: 0; transform: scale(0.7); }
-              to { opacity: 1; transform: scale(1); }
-            }
-          `}</style>
-            {/* </div> */}
         </>
     )
 }

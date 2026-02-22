@@ -5,11 +5,13 @@ import Battery from '../assets/Battery.svg'
 import Back from '../assets/Chevron.svg'
 import FaceTime from '../assets/FacetimeIcon.svg'
 import avatar from '../assets/avatar/avatar_3_BG.png'
+import { useDraggableWindow } from '../hooks/useDraggableWindow'
 
-const Message = ({ isOpen, isClose }) => {
+const Message = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange }) => {
 
     if (!isOpen) return null;
 
+    const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}));
     const [clock, setClock] = useState(new Date())
     const [openIndexes, setOpenIndexes] = useState([])
     const modalRef = useRef()
@@ -104,8 +106,20 @@ const Message = ({ isOpen, isClose }) => {
 
 
     return (
-        <div ref={modalRef} className='h-[550px] w-[300px] absolute top-[80px] left-[50px] bg-white shadow-xl text-sm flex flex-col'>
-            <div className='header pt-2 px-4 bg-[#ebebeb]'>
+        <div
+            ref={modalRef}
+            className='h-[550px] w-[300px] absolute bg-white dark:bg-[#2d2d2d] shadow-xl text-sm flex flex-col z-20 animate-scale-in'
+            style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
+        >
+            <div
+                className='header pt-2 px-4 bg-[#ebebeb] cursor-grab active:cursor-grabbing'
+                onMouseDown={handleMouseDown}
+            >
+                <div className='flex gap-2 mb-2' data-no-drag>
+                    <span className='h-2.5 w-2.5 rounded-full bg-[#ED6A5E] cursor-pointer' onClick={isClose} />
+                    <span className='h-2.5 w-2.5 rounded-full bg-[#F6BE4F] cursor-pointer' onClick={onMinimize} />
+                    <span className='h-2.5 w-2.5 rounded-full bg-[#62C554]' />
+                </div>
                 <div className='headerIcons flex justify-between items-center'>
                     <span className='time text-xs font-bold dark:text-[#272727]'>
                         {formatClockTime(clock)}
