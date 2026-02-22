@@ -11,7 +11,7 @@ const Contact = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     return (
         <>
             <div
-                className='absolute w-[460px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 animate-scale-in shadow-2xl'
+                className='absolute w-[95vw] max-w-[460px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 animate-scale-in shadow-2xl'
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             >
                 <div

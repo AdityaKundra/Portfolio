@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import './App.css';
 import grid from './assets/mainBg.avif';
 import AppDrawer from './components/AppDrawer';
@@ -7,7 +7,6 @@ import Headbar from './components/Headbar';
 import { projectList } from './components/Info';
 import Resume from './components/Resume';
 import Loader from './components/Loader';
-
 const Modal = lazy(() => import('./components/Modal'));
 const Terminal = lazy(() => import('./components/Terminal'));
 const Contact = lazy(() => import('./components/Contact'));
@@ -21,10 +20,15 @@ const ModalFallback = () => (
 
 const DOCK_APPS = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes'];
 
-const getCenterPosition = (width, height) => ({
-  x: Math.max(0, (window.innerWidth - Math.min(width, window.innerWidth)) / 2),
-  y: Math.max(0, (window.innerHeight - Math.min(height, window.innerHeight)) / 2),
-});
+const getCenterPosition = (width, height) => {
+  if (typeof window === 'undefined') return { x: 0, y: 0 };
+  const w = Math.min(width, window.innerWidth * 0.95);
+  const h = Math.min(height, window.innerHeight * 0.9);
+  return {
+    x: Math.max(0, (window.innerWidth - w) / 2),
+    y: Math.max(0, (window.innerHeight - h) / 2),
+  };
+};
 
 const App = () => {
   const [showLoader, setShowLoader] = useState(true);
@@ -75,6 +79,40 @@ const App = () => {
     setWindowPositions((prev) => ({ ...prev, [name]: pos }));
   };
 
+  const getTopmostModal = useCallback(() => {
+    if (openModals['Notes'] && !minimizedWindows['Notes']) return 'Notes';
+    if (openModals['Photos'] && !minimizedWindows['Photos']) return 'Photos';
+    if (openModals['Messages'] && !minimizedWindows['Messages']) return 'Messages';
+    if (openModals['Contacts'] && !minimizedWindows['Contacts']) return 'Contacts';
+    if (openModals['Terminal'] && !minimizedWindows['Terminal']) return 'Terminal';
+    for (let i = projectList.length - 1; i >= 0; i--) {
+      if (openModals[projectList[i].name]) return projectList[i].name;
+    }
+    return null;
+  }, [openModals, minimizedWindows]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        const top = getTopmostModal();
+        if (top) {
+          e.preventDefault();
+          closeModal(top);
+        }
+      } else if (e.metaKey || e.ctrlKey) {
+        if (e.key === 'm') {
+          e.preventDefault();
+          handleDockClick('Messages');
+        } else if (e.key === 't') {
+          e.preventDefault();
+          handleDockClick('Terminal');
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [getTopmostModal]);
+
   if (showLoader) return <Loader onFinish={() => setShowLoader(false)} />;
 
   const modalProps = (name, width, height) => ({
@@ -86,7 +124,7 @@ const App = () => {
   });
 
   return (
-    <div className="relative h-screen max-w-full overflow-hidden mainBg transition-colors">
+    <div className="relative min-h-dvh h-dvh max-w-full overflow-x-hidden mainBg transition-colors">
       <div className="absolute inset-0 z-0">
         <img
           src={grid}
@@ -95,25 +133,84 @@ const App = () => {
         />
       </div>
 
-      <div className="relative z-10 h-full flex justify-between flex-col">
+      <div className="relative z-10 h-full flex flex-col">
         <Headbar />
 
-        <div
-          className="blah absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-center px-4
-            text-[#1d1d1f] dark:text-[#f5f5f7]
-            animate-fade-in-up"
-          style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
-        >
-          <p className="font-chillax text-lg sm:text-xl md:text-2xl font-semibold opacity-90">
-            Full-Stack Developer • Designer • Builder
-          </p>
-          <p className="font-chillax text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mt-1">
-            Aditya Kundra
-          </p>
+        {/* Desktop: hero centered, folders scattered, dock at bottom */}
+        <div className="hidden md:block flex-1 min-h-0 relative">
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-4
+              text-[#1d1d1f] dark:text-[#f5f5f7] animate-fade-in-up"
+            style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
+          >
+            <p className="font-chillax text-2xl font-semibold opacity-90">
+              Full-Stack Developer • Designer • Builder
+            </p>
+            <p className="font-chillax text-7xl lg:text-8xl font-semibold mt-1">
+              Aditya Kundra
+            </p>
+          </div>
+
+          {projectList.map((project, index) => (
+            <div
+              key={index}
+              className="absolute animate-fade-in-up"
+              style={{
+                animationDelay: `${0.2 + index * 0.05}s`,
+                animationFillMode: 'both',
+                ...project.positions,
+              }}
+            >
+              <Folder
+                name={project.name}
+                position={{}}
+                openModal={() => openModal(project.name)}
+              />
+            </div>
+          ))}
+
+          <Resume />
+        </div>
+
+        {/* Mobile: compact hero at top, scrollable grid of folders + Resume, dock at bottom */}
+        <div className="md:hidden flex-1 min-h-0 flex flex-col overflow-hidden">
+          <div
+            className="shrink-0 pt-2 pb-1 px-4 text-center text-[#1d1d1f] dark:text-[#f5f5f7] animate-fade-in-up"
+            style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
+          >
+            <p className="font-chillax text-sm font-semibold opacity-90">
+              Full-Stack Developer • Designer • Builder
+            </p>
+            <p className="font-chillax text-2xl sm:text-3xl font-semibold mt-0.5">
+              Aditya Kundra
+            </p>
+          </div>
+
+          <div
+            className="flex-1 min-h-0 overflow-y-auto px-4 py-4 animate-fade-in-up"
+            style={{ animationDelay: '0.2s', animationFillMode: 'both' }}
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 max-w-md mx-auto justify-items-center">
+              <Folder
+                name="Resume"
+                position={{}}
+                variant="resume"
+                openModal={() => window.open('https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing', '_blank')}
+              />
+              {projectList.map((project, index) => (
+                <Folder
+                  key={index}
+                  name={project.name}
+                  position={{}}
+                  openModal={() => openModal(project.name)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         <div
-          className="animate-fade-in-up"
+          className="shrink-0 animate-fade-in-up"
           style={{ animationDelay: '0.3s', animationFillMode: 'both' }}
         >
           <AppDrawer
@@ -122,24 +219,6 @@ const App = () => {
             minimizedWindows={minimizedWindows}
           />
         </div>
-
-        {projectList.map((project, index) => (
-          <div
-            key={index}
-            className="absolute animate-fade-in-up"
-            style={{
-              animationDelay: `${0.2 + index * 0.05}s`,
-              animationFillMode: 'both',
-              ...project.positions,
-            }}
-          >
-            <Folder
-              name={project.name}
-              position={{}}
-              openModal={() => openModal(project.name)}
-            />
-          </div>
-        ))}
 
           {projectList.map(
             (project, index) =>
@@ -190,8 +269,6 @@ const App = () => {
               <Notes {...modalProps('Notes', 720, 480)} />
             </Suspense>
           )}
-
-        <Resume />
       </div>
     </div>
   );

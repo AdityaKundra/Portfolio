@@ -49,19 +49,13 @@ const Loader = ({ onFinish }) => {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setExit(true); // Start exit animation
-    }, 2000); // Start animation after delay
-
+    const timer = setTimeout(() => setExit(true), 1200);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     if (exit) {
-      const timer = setTimeout(() => {
-        onFinish(); // Notify parent to unmount
-      }, 600); // Match slideUp duration
-
+      const timer = setTimeout(onFinish, 500);
       return () => clearTimeout(timer);
     }
   }, [exit, onFinish]);

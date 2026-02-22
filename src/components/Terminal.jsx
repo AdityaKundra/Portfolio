@@ -116,7 +116,7 @@ Bachelor of Computer Applications - Subharti University, 2022`,
     }, [history])
     return (
         <div
-            className='h-[300px] w-[500px] absolute bg-white dark:bg-[#2d2d2d] rounded-lg shadow-lg font-mono text-sm z-20 animate-scale-in'
+            className='h-[70vh] max-h-[400px] w-[95vw] max-w-[500px] md:h-[300px] md:w-[500px] absolute bg-white dark:bg-[#2d2d2d] rounded-lg shadow-lg font-mono text-sm z-20 animate-scale-in'
             style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             onClick={() => inputRef.current?.focus()}
         >

@@ -23,14 +23,14 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 
 ## 📋 Phased plan
 
-### Phase 1 — Quick wins & polish
+### Phase 1 — Quick wins & polish ✅
 
 **Goal:** Ship-ready experience with minimal effort.
 
-- [ ] **Loader** — Re-enable in `App.jsx`; tune timing (e.g. until first paint)
-- [ ] **Keyboard shortcuts** — Escape closes top modal; Cmd+M (Messages), Cmd+T (Terminal)
-- [ ] **Modal open/close animations** — scale + fade; optional backdrop blur
-- [ ] **Responsive layout** — simplified layout for small screens (dock strip, folder grid, full-screen modals)
+- [x] **Loader** — Re-enable in `App.jsx`; tune timing (~1.2s display + 0.5s exit)
+- [x] **Keyboard shortcuts** — Escape closes top modal; Cmd+M (Messages), Cmd+T (Terminal)
+- [x] **Modal open/close animations** — scale + fade; backdrop blur when modals open
+- [x] **Responsive layout** — folder grid on mobile; responsive modals; compact hero
 
 ---
 
@@ -84,7 +84,7 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 
 | Phase | Status | Items |
 |-------|--------|-------|
-| Phase 1 | 🔲 Not started | 4 |
+| Phase 1 | ✅ Done | 4 |
 | Phase 2 | 🔲 Not started | 5 |
 | Phase 3 | 🔲 Not started | 3 |
 | Phase 4 | 🔲 Not started | 6 |

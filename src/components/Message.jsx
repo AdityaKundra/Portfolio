@@ -108,7 +108,7 @@ const Message = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     return (
         <div
             ref={modalRef}
-            className='h-[550px] w-[300px] absolute bg-white dark:bg-[#2d2d2d] shadow-xl text-sm flex flex-col z-20 animate-scale-in'
+            className='h-[80vh] max-h-[600px] w-[95vw] max-w-[340px] md:h-[550px] md:w-[300px] absolute bg-white dark:bg-[#2d2d2d] shadow-xl text-sm flex flex-col z-20 animate-scale-in'
             style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
         >
             <div

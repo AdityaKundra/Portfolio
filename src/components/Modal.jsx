@@ -13,7 +13,7 @@ const Modal = ({ name, isOpen, isClose, position = { x: 0, y: 0 }, onPositionCha
     return (
         <>
             <div
-                className='absolute h-[350px] w-[700px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 shadow-2xl animate-scale-in'
+                className='absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[700px] md:h-[350px] md:w-[700px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 shadow-2xl animate-scale-in'
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             >
                 <div className='w-3/12 sidebar bg-[#ebebeb] flex flex-col rounded-bl-xl rounded-tl-xl overflow-hidden'>

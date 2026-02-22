@@ -16,7 +16,7 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
     return (
         <>
             <div
-                className="absolute h-[450px] w-[750px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 overflow-hidden animate-scale-in"
+                className="absolute h-[80vh] max-h-[500px] w-[95vw] max-w-[750px] md:h-[450px] md:w-[750px] bg-white dark:bg-[#2d2d2d] flex rounded-xl z-20 overflow-hidden animate-scale-in"
                 style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.15) 0px 10px 30px 0px' }}
             >
                 {/* Sidebar */}

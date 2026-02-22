@@ -16,7 +16,7 @@ const Notes = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPosit
 
   return (
     <div
-      className='absolute h-[480px] w-[720px] bg-[#f5f5f7] dark:bg-[#1d1d1f] rounded-xl z-20 flex flex-col overflow-hidden animate-scale-in'
+      className='absolute h-[80vh] max-h-[550px] w-[95vw] max-w-[720px] md:h-[480px] md:w-[720px] bg-[#f5f5f7] dark:bg-[#1d1d1f] rounded-xl z-20 flex flex-col overflow-hidden animate-scale-in'
       style={{ left: position.x, top: position.y, boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 32px 0px' }}
     >
       {/* Title bar - macOS style, minimal */}
