@@ -38,11 +38,11 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 
 **Goal:** Richer content and more desktop-like behavior.
 
-- [ ] **Gallery content** — Replace placeholder images in `Info.js` with real project screenshots
-- [ ] **Build projects** — Surface Sports Score App, AI Resume Tailor, Productive App as folders or a Projects window
-- [ ] **Random folder positions** — Generate random positions for folders on load (or per session)
-- [ ] **Project modals minimize** — Allow folder windows to minimize to dock (or close only for now)
-- [ ] **Resume** — Integrate into desktop-item system as a draggable/movable item
+- [x] **Gallery content** — Replaced random placeholder images in `Info.js` with stable project-themed visuals
+- [x] **Build projects** — Surfaced Sports Score App, AI Resume Tailor, Productive App as desktop folders
+- [x] **Random folder positions** — Generate random positions for folders on desktop load (per session)
+- [x] **Project modals minimize** — Folder windows now support minimize behavior
+- [x] **Resume** — Integrated into desktop-item system with shared folder rendering
 
 ---
 
@@ -85,7 +85,7 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 | Phase | Status | Items |
 |-------|--------|-------|
 | Phase 1 | ✅ Done | 4 |
-| Phase 2 | 🔲 Not started | 5 |
+| Phase 2 | ✅ Done | 5 |
 | Phase 3 | 🔲 Not started | 3 |
-| Phase 4 | 🔲 Not started | 6 |
-| Phase 5 | 🔲 Not started | 4 |
+| Phase 4 | 🟨 In progress | 6 |
+| Phase 5 | 🟨 In progress | 4 |

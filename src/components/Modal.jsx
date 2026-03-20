@@ -4,7 +4,7 @@ import DocumentIcon from '../assets/Document.svg'
 import { projectList, socialLinks, projects } from './Info'
 import { useDraggableWindow } from '../hooks/useDraggableWindow'
 
-const Modal = ({ name, isOpen, isClose, position = { x: 0, y: 0 }, onPositionChange, onSwitchProject }) => {
+const Modal = ({ name, isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange, onSwitchProject }) => {
     if (!isOpen) return null
 
     const [openDoc, setOpenDoc] = useState(false);
@@ -30,7 +30,7 @@ const Modal = ({ name, isOpen, isClose, position = { x: 0, y: 0 }, onPositionCha
                     <div className='sidebarHead shrink-0 h-8 px-3 pt-3 cursor-grab active:cursor-grabbing' onMouseDown={handleMouseDown}>
                         <div className='actionButtons flex gap-2' data-no-drag>
                             <span className='cursor-pointer close h-3 w-3 block rounded-full bg-[#ED6A5E] border border-[#CE5347]' onClick={handleClose}></span>
-                            <span className='minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]'></span>
+                            <span className='minimize h-3 w-3 block rounded-full bg-[#F6BE4F] border border-[#D6A243]' onClick={onMinimize}></span>
                             <span className='expand h-3 w-3 block rounded-full bg-[#62C554] border border-[#58A942]'></span>
                         </div>
                     </div>

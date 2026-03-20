@@ -5,7 +5,6 @@ import AppDrawer from './components/AppDrawer';
 import Folder from './components/Folder';
 import Headbar from './components/Headbar';
 import { projectList } from './components/Info';
-import Resume from './components/Resume';
 import Loader from './components/Loader';
 const Modal = lazy(() => import('./components/Modal'));
 const Terminal = lazy(() => import('./components/Terminal'));
@@ -35,6 +34,17 @@ const App = () => {
   const [openModals, setOpenModals] = useState({});
   const [minimizedWindows, setMinimizedWindows] = useState({});
   const [windowPositions, setWindowPositions] = useState({});
+  const [desktopPositions, setDesktopPositions] = useState([]);
+
+  useEffect(() => {
+    const seeded = projectList.map((project) => {
+      const top = `${Math.floor(Math.random() * 62) + 18}%`;
+      const left = `${Math.floor(Math.random() * 78) + 8}%`;
+      return { name: project.name, top, left, variant: 'folder' };
+    });
+    seeded.unshift({ name: 'Resume', top: '22%', left: '14%', variant: 'resume' });
+    setDesktopPositions(seeded);
+  }, []);
 
   const openModal = (name) => {
     setOpenModals((prev) => ({ ...prev, [name]: true }));
@@ -47,9 +57,7 @@ const App = () => {
   };
 
   const minimizeWindow = (name) => {
-    if (DOCK_APPS.includes(name)) {
-      setMinimizedWindows((prev) => ({ ...prev, [name]: true }));
-    }
+    setMinimizedWindows((prev) => ({ ...prev, [name]: true }));
   };
 
   const restoreWindow = (name) => {
@@ -151,25 +159,29 @@ const App = () => {
             </p>
           </div>
 
-          {projectList.map((project, index) => (
+          {desktopPositions.map((item, index) => (
             <div
               key={index}
               className="absolute animate-fade-in-up"
               style={{
                 animationDelay: `${0.2 + index * 0.05}s`,
                 animationFillMode: 'both',
-                ...project.positions,
+                top: item.top,
+                left: item.left,
               }}
             >
               <Folder
-                name={project.name}
+                name={item.name}
                 position={{}}
-                openModal={() => openModal(project.name)}
+                variant={item.variant}
+                openModal={() =>
+                  item.name === 'Resume'
+                    ? window.open('https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing', '_blank')
+                    : openModal(item.name)
+                }
               />
             </div>
           ))}
-
-          <Resume />
         </div>
 
         {/* Mobile: compact hero at top, scrollable grid of folders + Resume, dock at bottom */}
@@ -222,12 +234,13 @@ const App = () => {
 
           {projectList.map(
             (project, index) =>
-              openModals[project.name] && (
+              openModals[project.name] && !minimizedWindows[project.name] && (
                 <Suspense key={index} fallback={<ModalFallback />}>
                   <Modal
                     name={project.name}
                     isOpen
                     isClose={() => closeModal(project.name)}
+                    onMinimize={() => minimizeWindow(project.name)}
                     projectName={project.name}
                     position={getWindowPosition(project.name, 700, 350)}
                     onPositionChange={(pos) => setWindowPosition(project.name, pos)}
