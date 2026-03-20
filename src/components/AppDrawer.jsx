@@ -2,7 +2,7 @@ import React from 'react';
 import { AppDrawerIcons } from './Icons';
 import { contact } from './Info';
 
-const modalIcons = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes'];
+const modalIcons = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes', 'Safari', 'Music', 'Settings'];
 
 const AppDrawer = ({ openModals, openWindows = {}, minimizedWindows = {} }) => {
   const iconsList = Object.entries(AppDrawerIcons);

@@ -50,9 +50,9 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 
 **Goal:** Expand the desktop metaphor.
 
-- [ ] **Spotlight (Cmd+K)** — Search that opens projects, notes, contact, or external links
-- [ ] **Safari** — Link list or iframe for external sites
-- [ ] **Music** — e.g. Spotify embed or link
+- [x] **Spotlight (Cmd+K)** — Search launcher for apps, projects, and social links
+- [x] **Safari** — Quick-link browser-style app window from dock
+- [x] **Music** — Music app window with curated tracks panel
 
 ---
 
@@ -64,8 +64,8 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 - [ ] **Code splitting** — Route-level or feature-level splits
 - [ ] **Image optimization** — Lazy loading, responsive images, WebP where supported
 - [ ] **Dark mode** — Theme toggle (e.g. in Headbar); consistent `dark:` usage
-- [ ] **SEO / meta** — Default title and description; per-project meta if routes are added
-- [ ] **Settings app** — Theme (light/dark), optional font size
+- [x] **SEO / meta** — Added default description, Open Graph, and Twitter meta tags
+- [x] **Settings app** — Dock-openable Settings window with theme toggle and text-size options
 
 ---
 
@@ -86,6 +86,6 @@ A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind
 |-------|--------|-------|
 | Phase 1 | ✅ Done | 4 |
 | Phase 2 | ✅ Done | 5 |
-| Phase 3 | 🔲 Not started | 3 |
+| Phase 3 | ✅ Done | 3 |
 | Phase 4 | 🟨 In progress | 6 |
 | Phase 5 | 🟨 In progress | 4 |

@@ -12,12 +12,16 @@ const Contact = lazy(() => import('./components/Contact'));
 const Message = lazy(() => import('./components/Message'));
 const Gallery = lazy(() => import('./components/Gallery'));
 const Notes = lazy(() => import('./components/Notes'));
+const Safari = lazy(() => import('./components/Safari'));
+const Music = lazy(() => import('./components/Music'));
+const Spotlight = lazy(() => import('./components/Spotlight'));
+const Settings = lazy(() => import('./components/Settings'));
 
 const ModalFallback = () => (
   <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-black/20 rounded-xl animate-pulse" />
 );
 
-const DOCK_APPS = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes'];
+const DOCK_APPS = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes', 'Safari', 'Music', 'Settings'];
 
 const getCenterPosition = (width, height) => {
   if (typeof window === 'undefined') return { x: 0, y: 0 };
@@ -35,6 +39,7 @@ const App = () => {
   const [minimizedWindows, setMinimizedWindows] = useState({});
   const [windowPositions, setWindowPositions] = useState({});
   const [desktopPositions, setDesktopPositions] = useState([]);
+  const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
 
   useEffect(() => {
     const seeded = projectList.map((project) => {
@@ -88,6 +93,9 @@ const App = () => {
   };
 
   const getTopmostModal = useCallback(() => {
+    if (openModals['Settings'] && !minimizedWindows['Settings']) return 'Settings';
+    if (openModals['Music'] && !minimizedWindows['Music']) return 'Music';
+    if (openModals['Safari'] && !minimizedWindows['Safari']) return 'Safari';
     if (openModals['Notes'] && !minimizedWindows['Notes']) return 'Notes';
     if (openModals['Photos'] && !minimizedWindows['Photos']) return 'Photos';
     if (openModals['Messages'] && !minimizedWindows['Messages']) return 'Messages';
@@ -102,6 +110,11 @@ const App = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
+        if (isSpotlightOpen) {
+          e.preventDefault();
+          setIsSpotlightOpen(false);
+          return;
+        }
         const top = getTopmostModal();
         if (top) {
           e.preventDefault();
@@ -114,12 +127,15 @@ const App = () => {
         } else if (e.key === 't') {
           e.preventDefault();
           handleDockClick('Terminal');
+        } else if (e.key === 'k') {
+          e.preventDefault();
+          setIsSpotlightOpen(true);
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [getTopmostModal]);
+  }, [getTopmostModal, isSpotlightOpen]);
 
   if (showLoader) return <Loader onFinish={() => setShowLoader(false)} />;
 
@@ -232,6 +248,22 @@ const App = () => {
           />
         </div>
 
+          {isSpotlightOpen && (
+            <Suspense fallback={null}>
+              <Spotlight
+                isOpen
+                onClose={() => setIsSpotlightOpen(false)}
+                onLaunch={(item) => {
+                  if (item.type === 'app' || item.type === 'project') {
+                    openModal(item.value);
+                  } else if (item.type === 'link') {
+                    window.open(item.value, '_blank');
+                  }
+                }}
+              />
+            </Suspense>
+          )}
+
           {projectList.map(
             (project, index) =>
               openModals[project.name] && !minimizedWindows[project.name] && (
@@ -280,6 +312,24 @@ const App = () => {
           {openModals['Notes'] && !minimizedWindows['Notes'] && (
             <Suspense fallback={<ModalFallback />}>
               <Notes {...modalProps('Notes', 720, 480)} />
+            </Suspense>
+          )}
+
+          {openModals['Safari'] && !minimizedWindows['Safari'] && (
+            <Suspense fallback={<ModalFallback />}>
+              <Safari {...modalProps('Safari', 860, 560)} />
+            </Suspense>
+          )}
+
+          {openModals['Music'] && !minimizedWindows['Music'] && (
+            <Suspense fallback={<ModalFallback />}>
+              <Music {...modalProps('Music', 400, 460)} />
+            </Suspense>
+          )}
+
+          {openModals['Settings'] && !minimizedWindows['Settings'] && (
+            <Suspense fallback={<ModalFallback />}>
+              <Settings {...modalProps('Settings', 500, 470)} />
             </Suspense>
           )}
       </div>
