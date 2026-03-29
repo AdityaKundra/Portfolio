@@ -16,12 +16,25 @@ const Safari = lazy(() => import('./components/Safari'));
 const Music = lazy(() => import('./components/Music'));
 const Spotlight = lazy(() => import('./components/Spotlight'));
 const Settings = lazy(() => import('./components/Settings'));
+const Finder = lazy(() => import('./components/Finder'));
+const Trash = lazy(() => import('./components/Trash'));
 
 const ModalFallback = () => (
   <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-black/20 rounded-xl animate-pulse" />
 );
 
-const DOCK_APPS = ['Messages', 'Contacts', 'Terminal', 'Photos', 'Notes', 'Safari', 'Music', 'Settings'];
+const DOCK_APPS = [
+  'Finder',
+  'Messages',
+  'Contacts',
+  'Terminal',
+  'Photos',
+  'Notes',
+  'Safari',
+  'Music',
+  'Settings',
+  'Trash',
+];
 
 const getCenterPosition = (width, height) => {
   if (typeof window === 'undefined') return { x: 0, y: 0 };
@@ -146,6 +159,8 @@ const App = () => {
   };
 
   const getTopmostModal = useCallback(() => {
+    if (openModals['Trash'] && !minimizedWindows['Trash']) return 'Trash';
+    if (openModals['Finder'] && !minimizedWindows['Finder']) return 'Finder';
     if (openModals['Settings'] && !minimizedWindows['Settings']) return 'Settings';
     if (openModals['Music'] && !minimizedWindows['Music']) return 'Music';
     if (openModals['Safari'] && !minimizedWindows['Safari']) return 'Safari';
@@ -205,8 +220,10 @@ const App = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={grid}
-          alt="grid-bg"
+          alt=""
           className="w-full h-full object-cover opacity-40 dark:opacity-20"
+          decoding="async"
+          fetchPriority="low"
         />
       </div>
 
@@ -385,7 +402,25 @@ const App = () => {
 
           {openModals['Settings'] && !minimizedWindows['Settings'] && (
             <Suspense fallback={<ModalFallback />}>
-              <Settings {...modalProps('Settings', 500, 470)} />
+              <Settings {...modalProps('Settings', 500, 560)} />
+            </Suspense>
+          )}
+
+          {openModals['Finder'] && !minimizedWindows['Finder'] && (
+            <Suspense fallback={<ModalFallback />}>
+              <Finder
+                {...modalProps('Finder', 640, 420)}
+                onOpenProject={(name) => {
+                  closeModal('Finder');
+                  openModal(name);
+                }}
+              />
+            </Suspense>
+          )}
+
+          {openModals['Trash'] && !minimizedWindows['Trash'] && (
+            <Suspense fallback={<ModalFallback />}>
+              <Trash {...modalProps('Trash', 400, 280)} />
             </Suspense>
           )}
       </div>

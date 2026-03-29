@@ -12,7 +12,7 @@ import Photos from '../assets/Photos.svg'
 import Safari from '../assets/Safari.svg'
 import Settings from '../assets/Settings.svg'
 import Terminal from '../assets/Terminal.svg'
-import TrashFull from '../assets/TrashFull.svg'
+import Trash from '../assets/Trash.svg'
 
 export const AppDrawerIcons = {
   Finder,
@@ -29,5 +29,5 @@ export const AppDrawerIcons = {
   AppStore,
   FaceTime,
   Folder,
-  TrashFull
+  Trash,
 }

@@ -1,7 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { projectList, socialLinks } from './Info'
 
-const appTargets = ['Terminal', 'Messages', 'Contacts', 'Photos', 'Notes', 'Safari', 'Music', 'Settings']
+const appTargets = [
+  'Finder',
+  'Terminal',
+  'Messages',
+  'Contacts',
+  'Photos',
+  'Notes',
+  'Safari',
+  'Music',
+  'Settings',
+  'Trash',
+]
 
 const Spotlight = ({ isOpen, onClose, onLaunch }) => {
   const [query, setQuery] = useState('')

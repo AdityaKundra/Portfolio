@@ -2,6 +2,23 @@ import { useState, useCallback } from 'react';
 import { gallery } from './Info';
 import { useDraggableWindow } from '../hooks/useDraggableWindow';
 
+/** Unsplash (and similar) URLs: request width for smaller payloads; keeps external URLs unchanged. */
+function galleryPhotoSrc(url, width) {
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('unsplash.com')) {
+      u.searchParams.set('auto', 'format');
+      u.searchParams.set('fit', 'crop');
+      u.searchParams.set('w', String(width));
+      u.searchParams.set('q', '82');
+      return u.toString();
+    }
+  } catch {
+    /* ignore */
+  }
+  return url;
+}
+
 const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange }) => {
     if (!isOpen) return null;
 
@@ -84,10 +101,13 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
                                         onClick={() => setLightboxPhoto(photo)}
                                     >
                                         <img
-                                            src={photo.url}
+                                            src={galleryPhotoSrc(photo.url, 400)}
+                                            srcSet={`${galleryPhotoSrc(photo.url, 200)} 200w, ${galleryPhotoSrc(photo.url, 400)} 400w, ${galleryPhotoSrc(photo.url, 600)} 600w`}
+                                            sizes="(max-width: 768px) 28vw, 200px"
                                             alt={photo.caption ?? ''}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
+                                            decoding="async"
                                         />
                                     </div>
                                 ))}
@@ -108,9 +128,11 @@ const Gallery = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPos
                         onClick={(e) => e.stopPropagation()}
                     >
                         <img
-                            src={lightboxPhoto.url}
+                            src={galleryPhotoSrc(lightboxPhoto.url, 1600)}
                             alt={lightboxPhoto.caption ?? ''}
                             className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                            decoding="async"
+                            fetchPriority="high"
                         />
                         {lightboxPhoto.caption && (
                             <p className="text-white text-sm text-center mt-2">{lightboxPhoto.caption}</p>

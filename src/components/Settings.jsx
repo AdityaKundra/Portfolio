@@ -8,6 +8,8 @@ const Settings = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
   const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}))
   const { isDark, toggleTheme, fontSize, setFontSize } = useTheme()
   const [isClosing, setIsClosing] = useState(false)
+  const [volume, setVolume] = useState(72)
+  const [brightness, setBrightness] = useState(80)
 
   const handleClose = useCallback(() => setIsClosing(true), [])
   const handleAnimationEnd = useCallback(() => {
@@ -18,7 +20,7 @@ const Settings = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
 
   return (
     <div
-      className={`absolute h-[80vh] max-h-[520px] w-[95vw] max-w-[520px] md:h-[470px] md:w-[500px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 flex flex-col overflow-hidden shadow-2xl ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
+      className={`absolute h-[80vh] max-h-[600px] w-[95vw] max-w-[520px] md:h-[560px] md:w-[500px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 flex flex-col overflow-hidden shadow-2xl ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
       style={{ left: position.x, top: position.y }}
       onAnimationEnd={handleAnimationEnd}
     >
@@ -63,6 +65,40 @@ const Settings = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
           <p className="text-xs text-[#6c6c70] dark:text-[#a0a0a5] mt-3">
             Applies to the whole site via root font size (saved in this browser).
           </p>
+        </div>
+
+        <div className="rounded-xl bg-white dark:bg-[#1f1f21] border border-[#ececf0] dark:border-[#3a3a3c] p-4 mt-4">
+          <h3 className="text-sm font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] mb-1">Sound</h3>
+          <p className="text-[11px] text-[#6c6c70] dark:text-[#a0a0a5] mb-3">Display only — does not control system volume.</p>
+          <label className="flex items-center gap-3">
+            <span className="text-xs text-[#1d1d1f] dark:text-[#f5f5f7] w-20">Volume</span>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value))}
+              className="flex-1 accent-[#1d1d1f] dark:accent-[#f5f5f7]"
+            />
+            <span className="text-xs tabular-nums text-[#6c6c70] dark:text-[#a0a0a5] w-8">{volume}</span>
+          </label>
+        </div>
+
+        <div className="rounded-xl bg-white dark:bg-[#1f1f21] border border-[#ececf0] dark:border-[#3a3a3c] p-4 mt-4">
+          <h3 className="text-sm font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] mb-1">Display</h3>
+          <p className="text-[11px] text-[#6c6c70] dark:text-[#a0a0a5] mb-3">Display only — does not change your screen.</p>
+          <label className="flex items-center gap-3">
+            <span className="text-xs text-[#1d1d1f] dark:text-[#f5f5f7] w-20">Brightness</span>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={brightness}
+              onChange={(e) => setBrightness(Number(e.target.value))}
+              className="flex-1 accent-[#1d1d1f] dark:accent-[#f5f5f7]"
+            />
+            <span className="text-xs tabular-nums text-[#6c6c70] dark:text-[#a0a0a5] w-8">{brightness}</span>
+          </label>
         </div>
       </div>
     </div>
