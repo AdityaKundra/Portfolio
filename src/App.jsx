@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, Suspense, lazy } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense, lazy } from 'react';
 import './App.css';
 import grid from './assets/mainBg.avif';
 import AppDrawer from './components/AppDrawer';
@@ -40,46 +40,99 @@ const App = () => {
   const [windowPositions, setWindowPositions] = useState({});
   const [desktopPositions, setDesktopPositions] = useState([]);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
+  const desktopAreaRef = useRef(null);
 
-  useEffect(() => {
-    const seeded = projectList.map((project) => {
-      const top = `${Math.floor(Math.random() * 62) + 18}%`;
-      const left = `${Math.floor(Math.random() * 78) + 8}%`;
-      return { name: project.name, top, left, variant: 'folder' };
-    });
-    seeded.unshift({ name: 'Resume', top: '22%', left: '14%', variant: 'resume' });
-    setDesktopPositions(seeded);
+  const clampFolderPixelPos = useCallback((pos) => {
+    const el = desktopAreaRef.current;
+    const padX = 72;
+    const padY = 96;
+    if (el && el.getBoundingClientRect().width > 40) {
+      const { width, height } = el.getBoundingClientRect();
+      return {
+        x: Math.min(Math.max(0, pos.x), Math.max(0, width - padX)),
+        y: Math.min(Math.max(0, pos.y), Math.max(0, height - padY)),
+      };
+    }
+    if (typeof window === 'undefined') return pos;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return {
+      x: Math.min(Math.max(0, pos.x), Math.max(0, w - padX)),
+      y: Math.min(Math.max(0, pos.y), Math.max(0, h - padY)),
+    };
   }, []);
 
-  const openModal = (name) => {
+  useEffect(() => {
+    const seed = () => {
+      const el = desktopAreaRef.current;
+      let w = typeof window !== 'undefined' ? window.innerWidth : 1200;
+      let h = typeof window !== 'undefined' ? window.innerHeight - 160 : 700;
+      if (el && el.getBoundingClientRect().width > 40) {
+        const r = el.getBoundingClientRect();
+        w = r.width;
+        h = r.height;
+      }
+      const seeded = projectList.map((project) => {
+        const x = Math.floor(Math.random() * Math.max(1, w * 0.72)) + Math.floor(w * 0.04);
+        const y = Math.floor(Math.random() * Math.max(1, h * 0.5)) + Math.floor(h * 0.08);
+        return { name: project.name, variant: 'folder', ...clampFolderPixelPos({ x, y }) };
+      });
+      seeded.unshift({
+        name: 'Resume',
+        variant: 'resume',
+        ...clampFolderPixelPos({ x: Math.floor(w * 0.08), y: Math.floor(h * 0.1) }),
+      });
+      setDesktopPositions(seeded);
+    };
+    const id = requestAnimationFrame(seed);
+    return () => cancelAnimationFrame(id);
+  }, [clampFolderPixelPos]);
+
+  const updateFolderPosition = useCallback(
+    (index, pos) => {
+      setDesktopPositions((prev) => {
+        const next = [...prev];
+        if (!next[index]) return prev;
+        const c = clampFolderPixelPos(pos);
+        next[index] = { ...next[index], x: c.x, y: c.y };
+        return next;
+      });
+    },
+    [clampFolderPixelPos]
+  );
+
+  const openModal = useCallback((name) => {
     setOpenModals((prev) => ({ ...prev, [name]: true }));
     setMinimizedWindows((prev) => ({ ...prev, [name]: false }));
-  };
+  }, []);
 
-  const closeModal = (name) => {
+  const closeModal = useCallback((name) => {
     setOpenModals((prev) => ({ ...prev, [name]: false }));
     setMinimizedWindows((prev) => ({ ...prev, [name]: false }));
-  };
+  }, []);
 
-  const minimizeWindow = (name) => {
+  const minimizeWindow = useCallback((name) => {
     setMinimizedWindows((prev) => ({ ...prev, [name]: true }));
-  };
+  }, []);
 
-  const restoreWindow = (name) => {
+  const restoreWindow = useCallback((name) => {
     setMinimizedWindows((prev) => ({ ...prev, [name]: false }));
-  };
+  }, []);
 
-  const handleDockClick = (name) => {
-    if (name === 'Mail') return;
-    if (!DOCK_APPS.includes(name)) return;
-    if (openModals[name] && minimizedWindows[name]) {
-      restoreWindow(name);
-    } else if (openModals[name] && !minimizedWindows[name]) {
-      minimizeWindow(name);
-    } else {
-      openModal(name);
-    }
-  };
+  const handleDockClick = useCallback(
+    (name) => {
+      if (name === 'Mail') return;
+      if (!DOCK_APPS.includes(name)) return;
+      if (openModals[name] && minimizedWindows[name]) {
+        restoreWindow(name);
+      } else if (openModals[name] && !minimizedWindows[name]) {
+        minimizeWindow(name);
+      } else {
+        openModal(name);
+      }
+    },
+    [openModals, minimizedWindows, minimizeWindow, openModal, restoreWindow]
+  );
 
   const getWindowPosition = (name, width, height) => {
     if (!windowPositions[name]) {
@@ -135,7 +188,7 @@ const App = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [getTopmostModal, isSpotlightOpen]);
+  }, [getTopmostModal, isSpotlightOpen, closeModal, handleDockClick]);
 
   if (showLoader) return <Loader onFinish={() => setShowLoader(false)} />;
 
@@ -161,7 +214,7 @@ const App = () => {
         <Headbar />
 
         {/* Desktop: hero centered, folders scattered, dock at bottom */}
-        <div className="hidden md:block flex-1 min-h-0 relative">
+        <div ref={desktopAreaRef} className="hidden md:block flex-1 min-h-0 relative">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-4
               text-[#1d1d1f] dark:text-[#f5f5f7] animate-fade-in-up"
@@ -177,19 +230,22 @@ const App = () => {
 
           {desktopPositions.map((item, index) => (
             <div
-              key={index}
-              className="absolute animate-fade-in-up"
+              key={`${item.name}-${index}`}
+              className="absolute animate-fade-in-up z-[1]"
               style={{
                 animationDelay: `${0.2 + index * 0.05}s`,
                 animationFillMode: 'both',
-                top: item.top,
-                left: item.left,
+                left: item.x,
+                top: item.y,
               }}
             >
               <Folder
                 name={item.name}
                 position={{}}
                 variant={item.variant}
+                draggable
+                dragPosition={{ x: item.x, y: item.y }}
+                onDragPositionChange={(pos) => updateFolderPosition(index, pos)}
                 openModal={() =>
                   item.name === 'Resume'
                     ? window.open('https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing', '_blank')

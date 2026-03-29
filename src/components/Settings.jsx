@@ -1,23 +1,30 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useDraggableWindow } from '../hooks/useDraggableWindow'
 import { useTheme } from '../context/ThemeContext'
 
 const sizes = ['Small', 'Medium', 'Large']
 
 const Settings = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange }) => {
-  if (!isOpen) return null
   const { handleMouseDown } = useDraggableWindow(position, onPositionChange || (() => {}))
-  const { isDark, toggleTheme } = useTheme()
-  const [fontSize, setFontSize] = useState('Medium')
+  const { isDark, toggleTheme, fontSize, setFontSize } = useTheme()
+  const [isClosing, setIsClosing] = useState(false)
+
+  const handleClose = useCallback(() => setIsClosing(true), [])
+  const handleAnimationEnd = useCallback(() => {
+    if (isClosing) isClose()
+  }, [isClosing, isClose])
+
+  if (!isOpen) return null
 
   return (
     <div
-      className="absolute h-[80vh] max-h-[520px] w-[95vw] max-w-[520px] md:h-[470px] md:w-[500px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 flex flex-col overflow-hidden shadow-2xl animate-scale-in"
+      className={`absolute h-[80vh] max-h-[520px] w-[95vw] max-w-[520px] md:h-[470px] md:w-[500px] bg-white dark:bg-[#2d2d2d] rounded-xl z-20 flex flex-col overflow-hidden shadow-2xl ${isClosing ? 'animate-scale-out' : 'animate-scale-in'}`}
       style={{ left: position.x, top: position.y }}
+      onAnimationEnd={handleAnimationEnd}
     >
       <div className="shrink-0 h-10 flex items-center pl-3 pr-4 cursor-grab active:cursor-grabbing bg-[#f5f5f7] dark:bg-[#1f1f21] border-b border-[#d1d1d6] dark:border-[#3a3a3c]" onMouseDown={handleMouseDown}>
         <div className="flex items-center gap-2" data-no-drag>
-          <span className="cursor-pointer h-3 w-3 rounded-full bg-[#ff5f57]" onClick={isClose} />
+          <span className="cursor-pointer h-3 w-3 rounded-full bg-[#ff5f57]" onClick={handleClose} />
           <span className="cursor-pointer h-3 w-3 rounded-full bg-[#febc2e]" onClick={onMinimize} />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         </div>
@@ -54,7 +61,7 @@ const Settings = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
             ))}
           </div>
           <p className="text-xs text-[#6c6c70] dark:text-[#a0a0a5] mt-3">
-            Preview only for now. Can be wired globally in a next pass.
+            Applies to the whole site via root font size (saved in this browser).
           </p>
         </div>
       </div>

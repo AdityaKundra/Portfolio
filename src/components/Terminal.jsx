@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import Folder from '../assets/Folder.svg'
 import { useDraggableWindow } from '../hooks/useDraggableWindow'
-import { contact, socialLinks, projects, projectList } from './Info'
+import { contact, socialLinks, projects, projectList, terminalAbout, terminalSkills } from './Info'
 
 const Terminal = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPositionChange }) => {
 
@@ -45,16 +45,9 @@ const Terminal = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
 📓 LeetCode: ${socialLinks.leetCode}
 📷 Instagram: ${socialLinks.instagram}`,
 
-        about: () =>
-            `Full-Stack Developer • Designer • Builder
-Crafting seamless user experiences with React, Node.js, and modern backend technologies.`,
+        about: () => terminalAbout,
 
-        skills: () =>
-            `Frontend: React, Next.js, Tailwind CSS, Redux, React Query
-Backend: Node.js, Express, REST APIs
-Databases: MySQL, PostgreSQL, MongoDB
-DevOps: Docker, GitHub Actions, Netlify, Vercel
-Others: System Design, ADBMS, Agile Development`,
+        skills: () => terminalSkills,
 
         experience: () =>
             Object.entries(projects)

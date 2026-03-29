@@ -11,6 +11,18 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+html {
+  font-size: 100%;
+}
+
+html[data-font-size='small'] {
+  font-size: 93.75%;
+}
+
+html[data-font-size='large'] {
+  font-size: 112.5%;
+}
 @layer utilities {
   .animate-bounce {
     animation: bounce 1s infinite;

@@ -114,6 +114,16 @@ export const contact = {
     resume: 'https://drive.google.com/file/d/1Y5SerpDnMvF0BpDn11yJozSNHiyTx1m-/view?usp=sharing'
 }
 
+/** Terminal `about` / `skills` output — single source with Contact bio */
+export const terminalAbout = `Full-Stack Developer • Designer • Builder
+Crafting seamless user experiences with React, Node.js, and modern backend technologies.`
+
+export const terminalSkills = `Frontend: React, Next.js, Tailwind CSS, Redux, React Query
+Backend: Node.js, Express, REST APIs
+Databases: MySQL, PostgreSQL, MongoDB
+DevOps: Docker, GitHub Actions, Netlify, Vercel
+Others: System Design, ADBMS, Agile Development`
+
 export const gallery = {
     albums: [
         {

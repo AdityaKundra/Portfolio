@@ -25,7 +25,7 @@ const Spotlight = ({ isOpen, onClose, onLaunch }) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] flex items-start justify-center pt-[14vh]" onClick={onClose}>
+    <div className="fixed inset-0 z-40 bg-black/25 flex items-start justify-center pt-[14vh]" onClick={onClose}>
       <div className="w-[92vw] max-w-[620px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#2d2d2d] animate-scale-in" onClick={(e) => e.stopPropagation()}>
         <div className="px-4 py-3 border-b border-[#e5e5ea] dark:border-[#3a3a3c]">
           <input
