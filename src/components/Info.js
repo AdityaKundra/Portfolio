@@ -1,31 +1,39 @@
 export const projectList = [
     {
-        name: 'LeadSchool_Students_App',
+        name: 'AVH Commerce',
         type: 'Job',
+        positions:{
+            top:'28%',
+            right:'12%'
+        }
+    },
+    {
+        name: 'Bonami Software',
+        type: 'Job',
+        positions:{
+            top:'48%',
+            left:'8%'
+        }
+    },
+    {
+        name: 'PS Tech Global',
+        type: 'Job',
+        positions:{
+            top:'62%',
+            right:'18%'
+        }
+    },
+    {
+        name: 'LEAD School',
+        type: 'Build',
         positions:{
             top:'30%',
             right:'10%'
         }
     },
     {
-        name: 'LeadSchool_Web_App',
-        type: 'Job',
-        positions:{
-            top:'65%',
-            left:'50%'
-        }
-    },
-    {
-        name: 'LeadSchool_Drupal_App',
-        type: 'Job',
-        positions:{
-            top:'70%',
-            right:'20%'
-        }
-    },
-    {
         name: 'Redefine',
-        type: 'Job',
+        type: 'Build',
         positions:{
             top:'60%',
             left:'10%'
@@ -58,21 +66,27 @@ export const projectList = [
 ]
 
 export const projects = {
-    LeadSchool_Students_App: {
+    'AVH Commerce': {
         link: '',
-        description: 'Engineered a mobile-first Students App for LEAD School using React Native, enabling 200K+ students to access classes, assignments, exams, and progress reports seamlessly. Integrated REST APIs for real-time attendance and performance updates, implemented offline-first features for low connectivity regions, and optimized UI/UX for better engagement. Significantly reduced student login issues and improved app adoption among partner schools.',
+        description: 'Software Engineer since September 2025. Built and scaled e-commerce features, developed APIs with Node.js, Express, and MongoDB, implemented CMS workflows, and improved Next.js frontend performance.',
         media: [],
         icon: '',
     },
-    LeadSchool_Web_App: {
+    'Bonami Software': {
         link: '',
-        description: 'Developed and scaled the LEAD School Web App using React.js and Redux, providing administrators and teachers with dashboards for attendance, performance analytics, and curriculum planning. Worked on modular UI components, role-based authentication, and data visualization to streamline academic operations. Enhanced cross-browser responsiveness and reduced load time by ~30%, improving efficiency for 10K+ teachers across schools.',
+        description: 'Software Engineer from May 2021 to August 2023. Developed full-stack applications with Node.js, React, and MongoDB, optimized APIs and database queries, built custom CMS tools, and led code reviews.',
         media: [],
         icon: '',
     },
-    LeadSchool_Drupal_App: {
+    'PS Tech Global': {
         link: '',
-        description: 'Maintained and customized a Drupal-based CMS powering LEAD School’s digital content ecosystem. Implemented theme customization, module development, and backend improvements to manage study materials, training resources, and communications for educators. Optimized caching and data delivery pipelines, reducing content load time by ~25% and enabling smoother content access for thousands of teachers nationwide.',
+        description: 'Back-End Developer from August 2020 to July 2021. Built and optimized web applications with PHP, JavaScript, HTML, and CSS, and reduced server load through refactoring.',
+        media: [],
+        icon: '',
+    },
+    'LEAD School': {
+        link: '',
+        description: 'Product work for LEAD School: a React Native students app, a React and Redux web app for teachers and administrators, and a Drupal CMS for study materials and educator resources.',
         media: [],
         icon: '',
     },
@@ -151,8 +165,9 @@ export const gallery = {
             id: 'work',
             name: 'Work',
             photos: [
-                { url: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80', caption: 'Lead School Students App' },
-                { url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80', caption: 'Redefine' },
+                { url: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80', caption: 'AVH Commerce' },
+                { url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80', caption: 'Bonami Software' },
+                { url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80', caption: 'PS Tech Global' },
             ],
         },
     ],

@@ -50,14 +50,17 @@ const Terminal = ({ isOpen, isClose, onMinimize, position = { x: 0, y: 0 }, onPo
         skills: () => terminalSkills,
 
         experience: () =>
-            Object.entries(projects)
-                .filter(([_, p]) => p.description)
-                .map(([name, p]) => `• ${name.replaceAll('_', ' ')}: ${p.description.split('.')[0].trim()}.`)
+            projectList
+                .filter((p) => p.type === 'Job')
+                .map((p) => {
+                    const line = projects[p.name]?.description?.split('.')[0]?.trim()
+                    return line ? `• ${p.name}: ${line}.` : `• ${p.name}`
+                })
                 .join('\n') || 'See projects for details.',
 
         education: () =>
-            `Master of Computer Applications - Chandigarh University, 2025
-Bachelor of Computer Applications - Subharti University, 2022`,
+            `Master of Computer Applications - Chandigarh University, 2023–2025
+Bachelor of Computer Applications - Subharti University, 2019–2022`,
 
         projects: () =>
             projectList
