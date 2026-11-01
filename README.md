@@ -1,108 +1,73 @@
-# Portfolio — Aditya Kundra
+# Aditya Kundra's portfolio
 
-A personal portfolio built as a **macOS-style desktop**: React + Vite + Tailwind. Visitors use a virtual desktop with a menu bar, dock, draggable folders, and app windows to explore projects and contact info.
+Source for [portfolio-tau-bice-23.vercel.app](https://portfolio-tau-bice-23.vercel.app): a fast, prerendered site with serious work, fun projects with live demos, games, a grounded "Ask about my work" assistant, and an optional desktop mode at `/desktop`.
 
----
+## Stack
 
-## Scripts
+React 19, TypeScript, Vite, Tailwind CSS 4 and React Router, deployed on Vercel. The Ask endpoint is a Vercel function that uses the Anthropic SDK.
 
+## Decisions
 
-| Command           | Description                          |
-| ----------------- | ------------------------------------ |
-| `npm run dev`     | Start Vite dev server                |
-| `npm run build`   | Production build to `dist/`          |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint`    | Run ESLint                           |
+**Prerender every route.** `scripts/prerender.mjs` writes real HTML for each page after the build. Link previews, crawlers and visitors without JavaScript all get the content. I chose this over a framework because the site has a handful of static routes and needs no server rendering at request time.
 
+**One source of truth for content.** Everything factual lives in `src/content`. The pages, the terminal and the Ask corpus all read from it, so they cannot disagree. A test fails if a phone number ever appears there.
 
----
+**Ask answers only from the site, and AI is opt-in.** By default it is a BM25 search that runs in the browser. With AI on, `server/ask.ts` sends the corpus as cited documents, streams the reply as NDJSON, and shows visitors the sources it used.
 
-## ✅ Completed
+| Risk | Control |
+| --- | --- |
+| Abuse | Per-IP limit of 10 requests an hour, plus input length and history limits |
+| Runaway cost | Daily token budget, checked before each call and updated after it |
+| Limit store outage | Fails closed, so no model call happens without a working limit |
+| No API key, or an API failure | The browser falls back to BM25 search over the same content, labelled as search |
 
-- Notes App UI
-- Document UI
-- Contacts UI (driven by `Info.js`)
-- Terminal (help, contact, about, skills, experience, projects, etc.) — driven by `Info.js`
-- Links (data in `Info.js`)
-- Messages UI (iMessage-style FAQ with interview Q&A)
-- **Gallery UI** — Albums sidebar, grid, lightbox; responsive `srcSet` for Unsplash; data in `Info.js`
-- **Draggable windows** — `useDraggableWindow` hook; title-bar drag on modals
-- **Draggable desktop folders** — Random initial layout; drag to reposition on desktop (`md+`); click opens project or Resume
-- **Minimize to dock** — Finder, Messages, Contacts, Terminal, Photos, Notes, Safari, Music, Settings, Trash
-- **Notes & Photos** — Dock opens Notes and Gallery (Photos)
-- **Modal sidebar** — Favourites switch projects; Social Links open in new tab
-- **Single source of truth** — Portfolio copy in `Info.js` (including terminal `about` / `skills` text)
-- **Spotlight (Cmd+K)** — Search apps, projects, social links
-- **Safari & Music** — Dock apps with quick links / curated panel
-- **Finder** — List view of projects; row click opens project modal
-- **Trash** — Empty-state window (dock + Spotlight)
-- **Settings** — Theme (persisted), root text size, volume & brightness sliders (UI-only)
+**Games teach real facts.** Two Truths and a Lie, Bug Hunt, Sort Race and Hire Check live in `src/components/play`. Their copy is in `src/content/play.ts`, and Hire Check derives its evidence from the same data as the case studies, so it reports gaps honestly.
 
----
+**Shelf content lives in files.** A post is a Markdown file in `src/content/posts`, compiled at build time so Markdown adds nothing to the browser bundle. Recommendations are entries in `src/content/shelf.ts`, and each needs a `why`. YouTube and Spotify links load their player only when clicked.
 
-## 📋 Phased plan (all phases done)
+**Desktop mode is optional and lazy-loaded.** It is a separate chunk that the main site never downloads. Window behavior is a pure reducer in `src/desktop/windows.ts`, which keeps it easy to test.
 
-### Phase 1 — Quick wins & polish
+**No Apple assets.** The icons are drawn for this project and the fonts are open source (Instrument Sans and IBM Plex Mono).
 
-- Loader (~1.2s + 0.5s exit) in `App.jsx`
-- Keyboard: Escape (modal / Spotlight), Cmd+M / Cmd+T / Cmd+K
-- Modal scale in; scale-out on close (red button)
-- Responsive layout: folder grid on mobile; responsive modals; compact hero
-- Entrance animations (`animate-fade-in-up` on hero, folders, dock)
+## Run it
 
-### Phase 2 — Content & metaphor
+```bash
+npm install
+cp .env.example .env.local   # optional: set VITE_ASK_AI=true and ANTHROPIC_API_KEY for AI answers
+npm run dev
+```
 
-- Gallery imagery in `Info.js` (Unsplash-backed)
-- Build projects as desktop folders
-- Random folder positions per load (pixels within desktop area)
-- Project modals: minimize; restore via folder click (not on dock)
-- Resume as a folder (opens Drive link)
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Dev server, including `/api/ask` |
+| `npm run build` | Production build and prerender to `dist/` |
+| `npm run preview` | Serve the build with production-style URLs (Ask uses its search fallback here) |
+| `npm run check` | Lint, type check, tests and build. CI runs the same steps |
+| `npm run posts` | Recompile Markdown posts (dev and build do this automatically) |
+| `npm run sync:github` | Refresh repo languages and dates in `src/content/github.json` |
+| `npm run eval:ask` | Live answer-quality checks against the real API. This costs money |
 
-### Phase 3 — New apps & search
+## Environment
 
-- Spotlight (Cmd+K)
-- Safari — browser-style window + bookmarks
-- Music — tracks + external playlist links
+| Variable | Purpose |
+| --- | --- |
+| `VITE_ASK_AI` | Set to `true` to turn on AI answers. Off by default, so Ask searches the site |
+| `ANTHROPIC_API_KEY` | Required for AI answers |
+| `ASK_MODEL` | Model ID. Defaults to `claude-opus-5-5` |
+| `ASK_DAILY_TOKEN_BUDGET` | Tokens per UTC day before Ask pauses. Defaults to 300000 |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Shared counters. Without them, limits apply per serverless instance |
 
-### Phase 4 — Technical & UX polish
+## Layout
 
-- Lazy-loaded modals (`React.lazy` + `Suspense`) including Finder, Trash, Spotlight
-- Code splitting via Vite chunks per lazy import
-- Image optimization — gallery `srcSet`/`sizes`, `decoding`/`fetchPriority`, hero AVIF
-- Dark mode — `ThemeContext` + Settings; `dark:` across UI
-- SEO — meta, Open Graph, Twitter; share image `public/og-image.png`
+```text
+api/ask.ts          Vercel function entry point
+server/             Ask handler and rate limiting
+src/content/        Profile, case studies, notes, Ask corpus, page metadata
+src/pages/          Homepage and case study pages
+src/components/     Shared UI, the Ask panel, demos and games
+src/desktop/        Desktop mode: window manager, terminal, search
+scripts/            Prerender step
+evals/              Live checks for Ask
+```
 
-### Phase 5 — Nice-to-haves
-
-- Entrance animations (tracked with Phase 1)
-- Finder — project list view (`Finder.jsx`)
-- Settings extended — volume & brightness placeholders (`Settings.jsx`)
-- Trash — empty state (`Trash.jsx`)
-
----
-
-## 🚧 Current status
-
-
-| Phase   | Status |
-| ------- | ------ |
-| Phase 1 | Done   |
-| Phase 2 | Done   |
-| Phase 3 | Done   |
-| Phase 4 | Done   |
-| Phase 5 | Done   |
-
-
----
-
-## Project layout (reference)
-
-
-| Area                    | Location                                                             |
-| ----------------------- | -------------------------------------------------------------------- |
-| Portfolio data          | `[src/components/Info.js](src/components/Info.js)`                   |
-| Desktop / dock / modals | `[src/App.jsx](src/App.jsx)`                                         |
-| Theme & font size       | `[src/context/ThemeContext.jsx](src/context/ThemeContext.jsx)`       |
-| Drag behavior           | `[src/hooks/useDraggableWindow.js](src/hooks/useDraggableWindow.js)` |
-
-
+Code imported by `api/` uses `.js` import extensions because Vercel runs those files as plain Node ESM.
