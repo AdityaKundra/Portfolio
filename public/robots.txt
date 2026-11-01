@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://portfolio-tau-bice-23.vercel.app/sitemap.xml
